@@ -32,6 +32,7 @@ fastq:
 kallisto:
   directory: "kallisto_results/"
 
+sample_sheet: "config/samples.tsv"
 
 ############################################
 ############  Tools parameters  ############
