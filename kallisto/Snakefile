@@ -1,42 +1,55 @@
 
 # Configuration file
-configfile: "config.yaml"
+configfile: "config/config.yaml"
 
 
-KALLISTO_OUTPUT = [config['kallisto']['directory'] + str(i) + "_kallisto" for i in range(19, 28)]
+# Get all inputs
+# TODO: add more possible inputs, improve KALLISTO_OUTPUT
+def all_input(wildcards):
+        KALLISTO_OUTPUT = [config['kallisto']['directory'] + str(i) + "_kallisto" for i in range(19, 28)]
 
 
-
+# Get transcriptome fasta for specified species
 def getFasta(wildcards):
     if config["species"] == "human":
         return config["references"]["fasta"]["human"]
     elif config["species"] == "mouse":
         return config["references"]["fasta"]["mouse"]
 
+
+# Get first fastq.gz file at specified location
 def getFirstReads(wildcards):
     if config["species"] == "human":
         return config["fastq"]["human"] + "{wildcards.sample}_1.fastq.gz".format(wildcards=wildcards)
     elif config["species"] == "mouse":
         return config["fastq"]["mouse"] + "{wildcards.sample}_1.fastq.gz".format(wildcards=wildcards)
 
+
+# Get second fastq.gz file at specified location
 def getSecondReads(wildcards):
     if config["species"] == "human":
         return config["fastq"]["human"] + "{wildcards.sample}_2.fastq.gz".format(wildcards=wildcards)
     elif config["species"] == "mouse":
         return config["fastq"]["mouse"] + "{wildcards.sample}_2.fastq.gz".format(wildcards=wildcards)
 
+
+# Get gtf file for specified species
 def getGTF():
     if config["species"] == "human":
         return config["gtf"]["human"]
     elif config["species"] == "mouse":
         return config["gtf"]["mouse"]
 
+# Get ChromInfo file location for specified species
+# TODO: add command option
 def getChrInfo():
     if config["species"] == "human":
         return config["ChromInfo"]["ChromInfo_human"]
     elif config["species"] == "mouse":
         return config["ChromInfo"]["ChromInfo_mouse"]
 
+
+# Get transcriptome index file for specified species
 def getIndex():
     if config["species"] == "human":
         return config["references"]["indexes"]["human"]
@@ -44,44 +57,8 @@ def getIndex():
         return config["references"]["indexes"]["mouse"]
 
 
-# Path to index file for selected organism.
-INDEX = getIndex()
-
-
 rule all:
     input: KALLISTO_OUTPUT
 
 
-rule kallisto_index:
-    input:
-        getFasta
-    output:
-        INDEX
-    params:
-        name="kallisto_index",
-        nthread=5
-    conda:
-        "./env/kallisto.yaml"
-    shell:
-        "kallisto index -i {output} {input}"
-
-
-rule kallisto_quant:
-    input:
-        p1=getFirstReads,
-        p2=getSecondReads,
-        idx=INDEX
-    output:
-        directory(config['kallisto']['directory'] + "{sample}_kallisto")
-    params:
-        name="kallisto_quant_{sample}",
-        nthread=10,
-        bootstrap=100
-    conda:
-        "./env/kallisto.yaml"
-    shell:
-        "kallisto quant -t {params.nthread} \
-          -i {input.idx} \
-          -o {output} \
-          -b {params.bootstrap} \
-          {input.p1} {input.p2}"
+include: "rules/kallisto.smk"
