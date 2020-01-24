@@ -3,7 +3,7 @@
 configfile: "config.yaml"
 
 
-KALLISTO_OUTPUT = [str(i) + "_kallisto_out" for i in range(1, 19)]
+KALLISTO_OUTPUT = [config['kallisto']['directory'] + str(i) + "_kallisto" for i in range(19, 28)]
 
 
 
