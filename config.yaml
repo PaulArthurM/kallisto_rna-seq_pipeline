@@ -17,8 +17,8 @@ gtf:
   mouse: "/data1/scratch/pamesl/projet_RNAseq_Gaetano/mus_musculus/Mus_musculus.GRCm38.96.gtf"
 
 fastq:
-  human: "../HN00115059/homo_sapiens_analysis/"
-  mouse: "../HN00115059/mus_musculus_analysis/"
+  human: "/data1/scratch/pamesl/projet_RNAseq_Gaetano/HN00115059/homo_sapiens_analysis/"
+  mouse: "/data1/scratch/pamesl/projet_RNAseq_Gaetano/HN00115059/mus_musculus_analysis/"
 
 kallisto:
   directory: "kallisto_results/"
