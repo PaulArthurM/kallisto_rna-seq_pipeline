@@ -1,0 +1,6 @@
+name: kallisto
+channels:
+  - bioconda
+dependencies:
+  - kallisto=0.44.0
+  - hdf5=1.10.2

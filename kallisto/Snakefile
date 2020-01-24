@@ -1,0 +1,87 @@
+
+# Configuration file
+configfile: "config.yaml"
+
+
+KALLISTO_OUTPUT = [str(i) + "_kallisto_out" for i in range(1, 19)]
+
+
+
+def getFasta(wildcards):
+    if config["species"] == "human":
+        return config["references"]["fasta"]["human"]
+    elif config["species"] == "mouse":
+        return config["references"]["fasta"]["mouse"]
+
+def getFirstReads(wildcards):
+    if config["species"] == "human":
+        return config["fastq"]["human"] + "{wildcards.sample}_1.fastq.gz".format(wildcards=wildcards)
+    elif config["species"] == "mouse":
+        return config["fastq"]["mouse"] + "{wildcards.sample}_1.fastq.gz".format(wildcards=wildcards)
+
+def getSecondReads(wildcards):
+    if config["species"] == "human":
+        return config["fastq"]["human"] + "{wildcards.sample}_2.fastq.gz".format(wildcards=wildcards)
+    elif config["species"] == "mouse":
+        return config["fastq"]["mouse"] + "{wildcards.sample}_2.fastq.gz".format(wildcards=wildcards)
+
+def getGTF():
+    if config["species"] == "human":
+        return config["gtf"]["human"]
+    elif config["species"] == "mouse":
+        return config["gtf"]["mouse"]
+
+def getChrInfo():
+    if config["species"] == "human":
+        return config["ChromInfo"]["ChromInfo_human"]
+    elif config["species"] == "mouse":
+        return config["ChromInfo"]["ChromInfo_mouse"]
+
+def getIndex():
+    if config["species"] == "human":
+        return config["references"]["indexes"]["human"]
+    elif config["species"] == "mouse":
+        return config["references"]["indexes"]["mouse"]
+
+
+# Path to index file for selected organism.
+INDEX = getIndex()
+
+
+rule all:
+    input: KALLISTO_OUTPUT
+
+
+rule kallisto_index:
+    input:
+        getFasta
+    output:
+        INDEX
+    params:
+        name="kallisto_index",
+        nthread=5
+    conda:
+        "./env/kallisto.yaml"
+    shell:
+        "kallisto index -i {output} {input}"
+
+
+rule kallisto_quant:
+    input:
+        p1=getFirstReads,
+        p2=getSecondReads,
+        idx=INDEX
+    output:
+        directory(config['kallisto']['directory'] + "{sample}_kallisto")
+    params:
+        name="kallisto_quant_{sample}",
+        nthread=10,
+        bootstrap=100
+    conda:
+        "./env/kallisto.yaml"
+    shell:
+        "kallisto quant -t {params.nthread} \
+          -i {input.idx} \
+          -o {output} \
+          -b {params.bootstrap} \
+          {input.p1} {input.p2}"
