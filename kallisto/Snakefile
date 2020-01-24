@@ -1,3 +1,6 @@
+include: "functions.smk"
+include: "rules/kallisto.smk"
+
 
 # Configuration file
 configfile: "config/config.yaml"
@@ -6,59 +9,11 @@ configfile: "config/config.yaml"
 # Get all inputs
 # TODO: add more possible inputs, improve KALLISTO_OUTPUT
 def all_input(wildcards):
-        KALLISTO_OUTPUT = [config['kallisto']['directory'] + str(i) + "_kallisto" for i in range(19, 28)]
-
-
-# Get transcriptome fasta for specified species
-def getFasta(wildcards):
-    if config["species"] == "human":
-        return config["references"]["fasta"]["human"]
-    elif config["species"] == "mouse":
-        return config["references"]["fasta"]["mouse"]
-
-
-# Get first fastq.gz file at specified location
-def getFirstReads(wildcards):
-    if config["species"] == "human":
-        return config["fastq"]["human"] + "{wildcards.sample}_1.fastq.gz".format(wildcards=wildcards)
-    elif config["species"] == "mouse":
-        return config["fastq"]["mouse"] + "{wildcards.sample}_1.fastq.gz".format(wildcards=wildcards)
-
-
-# Get second fastq.gz file at specified location
-def getSecondReads(wildcards):
-    if config["species"] == "human":
-        return config["fastq"]["human"] + "{wildcards.sample}_2.fastq.gz".format(wildcards=wildcards)
-    elif config["species"] == "mouse":
-        return config["fastq"]["mouse"] + "{wildcards.sample}_2.fastq.gz".format(wildcards=wildcards)
-
-
-# Get gtf file for specified species
-def getGTF():
-    if config["species"] == "human":
-        return config["gtf"]["human"]
-    elif config["species"] == "mouse":
-        return config["gtf"]["mouse"]
-
-# Get ChromInfo file location for specified species
-# TODO: add command option
-def getChrInfo():
-    if config["species"] == "human":
-        return config["ChromInfo"]["ChromInfo_human"]
-    elif config["species"] == "mouse":
-        return config["ChromInfo"]["ChromInfo_mouse"]
-
-
-# Get transcriptome index file for specified species
-def getIndex():
-    if config["species"] == "human":
-        return config["references"]["indexes"]["human"]
-    elif config["species"] == "mouse":
-        return config["references"]["indexes"]["mouse"]
+    wanted_input = []
+    KALLISTO_OUTPUT = expand([config['kallisto']['directory'] + "{sample}" + "_kallisto", sample=Sample_sheet.samples)
+    wanted_input.extend(KALLISTO_OUTPUT)
+    return wanted_input
 
 
 rule all:
-    input: KALLISTO_OUTPUT
-
-
-include: "rules/kallisto.smk"
+    input: all_input
