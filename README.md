@@ -1,1 +1,4 @@
-# kallisto_rna-seq_pipeline
+# A Snakemake pipeline for RNA-seq data analysis 
+
+This section is under construction.
+
