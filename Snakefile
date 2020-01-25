@@ -1,5 +1,5 @@
-include: "functions.smk"
-include: "rules/kallisto.smk"
+include: "workflow/rules/functions.smk"
+include: "workflow/rules/kallisto.smk"
 
 
 # Configuration file
