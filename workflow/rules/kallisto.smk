@@ -9,7 +9,7 @@ rule kallisto_index:
         name="kallisto_index",
         nthread=config["kallisto"]["index"]["nthread"]
     conda:
-        "./env/kallisto.yaml"
+        "workflow/env/kallisto.yaml"
     shell:
         "kallisto index -i {output} {input}"
 
@@ -28,7 +28,7 @@ rule kallisto_quant:
         nthread=config["kallisto"]["quant"]["nthread"],
         bootstrap=config["kallisto"]["quant"]["bootstrap"]
     conda:
-        "./env/kallisto.yaml"
+        "workflow/env/kallisto.yaml"
     shell:
         "kallisto quant -t {params.nthread} \
           -i {input.idx} \
