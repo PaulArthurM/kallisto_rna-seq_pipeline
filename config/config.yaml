@@ -11,11 +11,11 @@ species: "mouse"
 
 references:
   indexes:
-    human: "Homo_sapiens.GRCh38.cdna.all.plusSPNS2.idx"
-    mouse: "/data1/scratch/pamesl/projet_RNAseq_Gaetano/mus_musculus/transcriptome.idx"
+    human: "/home/data/kallisto_index/homo_sapiens/transcriptome.idx"
+    mouse: "/home/data/kallisto_index/mus_musculus/transcriptome.idx"
   fasta:
-    human: "/data2/fdb/igenomes/Homo_sapiens/UCSC/hg19/Sequence/WholeGenomeFasta/genome.fa"
-    mouse: "/data1/scratch/pamesl/projet_RNAseq_Gaetano/mus_musculus/Mus_musculus.GRCm38.cdna.all.fa"
+    human: "/home/data/kallisto_index/homo_sapiens/Homo_sapiens.GRCh38.cdna.all.fa"
+    mouse: "/home/data/kallisto_index/mus_musculus/Mus_musculus.GRCm38.cdna.all.fa"
 
 # Not used for the moment
 ChromInfo:
@@ -23,8 +23,8 @@ ChromInfo:
   mouse: "kallisto_files/ChromInfo_mouse"
 
 gtf:
-  human: "/data2/fdb/igenomes/Homo_sapiens/UCSC/hg19/Annotation/Archives/archive-2015-07-17-14-32-32/Genes/genes.gtf"
-  mouse: "/data1/scratch/pamesl/projet_RNAseq_Gaetano/mus_musculus/Mus_musculus.GRCm38.96.gtf"
+  human: "/home/data/kallisto_index/homo_sapiens/Homo_sapiens.GRCh38.96.gtf"
+  mouse: "/home/data/kallisto_index/mus_musculus/Mus_musculus.GRCm38.96.gtf"
 
 fastq:
   directory: "path/to/files/"
