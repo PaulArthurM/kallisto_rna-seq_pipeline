@@ -27,11 +27,9 @@ gtf:
   mouse: "/data1/scratch/pamesl/projet_RNAseq_Gaetano/mus_musculus/Mus_musculus.GRCm38.96.gtf"
 
 fastq:
+  directory: "path/to/files/"
   human: "/data1/scratch/pamesl/projet_RNAseq_Gaetano/HN00115059/homo_sapiens_analysis/"
   mouse: "/data1/scratch/pamesl/projet_RNAseq_Gaetano/HN00115059/mus_musculus_analysis/"
-
-kallisto:
-  directory: "results/kallisto_results/"
 
 sample_sheet: "config/samples.tsv"
 
@@ -40,6 +38,7 @@ sample_sheet: "config/samples.tsv"
 ############################################
 
 kallisto:
+  directory: "results/kallisto_results/"
   index:
     nthread: 5
   quant:

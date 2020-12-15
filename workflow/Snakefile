@@ -1,0 +1,22 @@
+#---------------------------
+# @author: Paul-Arthur Meslin
+# @email: paularth.meslin@gmail.com
+# @date: December, 15th, 2020
+#---------------------------
+
+from snakemake.utils import min_version
+min_version("5.24.0")
+
+
+#---------  Configuration  ---------------
+configfile: "config/config.yaml"
+pepfile: "pep/config.yaml"
+#-----------------------------------------
+
+include: "rules/commons.smk"
+include: "rules/functions.smk"
+include: "rules/kallisto.smk"
+
+
+rule all:
+    input: all_input

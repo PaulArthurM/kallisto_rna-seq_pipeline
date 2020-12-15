@@ -1,0 +1,9 @@
+sample_name,subsample_name,file
+17,1,17_S1_all_R1_001_cutadapt.fastq.gz
+17,2,17_S1_all_R2_001_cutadapt.fastq.gz
+18,1,18_S2_all_R1_001_cutadapt.fastq.gz
+18,2,18_S2_all_R2_001_cutadapt.fastq.gz
+19,1,19_S3_all_R1_001_cutadapt.fastq.gz
+19,2,19_S3_all_R2_001_cutadapt.fastq.gz
+20,1,20_S4_all_R1_001_cutadapt.fastq.gz
+20,2,20_S4_all_R2_001_cutadapt.fastq.gz

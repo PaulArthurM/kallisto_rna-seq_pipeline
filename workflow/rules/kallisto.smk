@@ -1,17 +1,17 @@
-# Kallisto index building rule
-# TODO: add params in config file
-rule kallisto_index:
-    input:
-        getFasta
-    output:
-        getIndex
-    params:
-        name="kallisto_index",
-        nthread=config["kallisto"]["index"]["nthread"]
-    conda:
-        "workflow/env/kallisto.yaml"
-    shell:
-        "kallisto index -i {output} {input}"
+# # Kallisto index building rule
+# # TODO: add params in config file
+# rule kallisto_index:
+#     input:
+#         getFasta
+#     output:
+#         getIndex
+#     params:
+#         name="kallisto_index",
+#         nthread=config["kallisto"]["index"]["nthread"]
+#     conda:
+#         "workflow/env/kallisto.yaml"
+#     shell:
+#         "kallisto index -i {output} {input}"
 
 
 # Kallisto quantification rule
@@ -22,9 +22,9 @@ rule kallisto_quant:
         p2=getSecondReads,
         idx=getIndex
     output:
-        directory(config['kallisto']['directory'] + "{sample}_kallisto")
+        directory("results/kallisto_results/{sample_name}-{organism}_{cell_line}.{type}_kallisto")
     params:
-        name="kallisto_quant_{sample}",
+        name="kallisto_quant_{sample_name}-{organism}_{cell_line}.{type}",
         nthread=config["kallisto"]["quant"]["nthread"],
         bootstrap=config["kallisto"]["quant"]["bootstrap"]
     conda:
